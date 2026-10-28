@@ -28,6 +28,27 @@ async function deliver({ to, subject, text, devNote }) {
   }
 }
 
+/** Welcome email with the generated password. */
+function sendCredentials({ to, name, role, password }) {
+  return deliver({
+    to,
+    subject: 'Your Serial account details',
+    devNote: `Password for ${name}: ${password}`,
+    text:
+`Hello ${name},
+
+Your ${ROLE_LABEL[role]} account on Serial has been created.
+
+Login email: ${to}
+Temporary password: ${password}
+
+You will be asked to change this password the first time you log in.
+If you did not register, please ignore this email.
+
+- Serial`,
+  });
+}
+
 /** "Forgot password" email with a new temporary password. */
 function sendPasswordReset({ to, name, password }) {
   return deliver({
