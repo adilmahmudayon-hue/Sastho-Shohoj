@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Serial – Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <strong>🩺 Serial</strong>
+    <span><span id="who"></span> <button id="logout" class="secondary">Log out</button></span>
+  </div>
+  <main>
+    <div id="pending" class="message error" hidden>Your account is waiting for verification. Some features will be available after approval.</div>
+    <div class="card">
+      <h2 id="welcome">Welcome</h2>
+      <p class="hint" id="roleLine"></p>
+      <p>✅ Login works. The role-based menu will be built here next.</p>
+    </div>
+  </main>
+  <script>
+    const LABEL = { patient: 'Patient', doctor: 'Doctor', admin: 'Hospital / Clinic Admin' };
+    (async () => {
+      const r = await fetch('/api/auth/me');
+      if (!r.ok) { location.href = '/'; return; }
+      const me = await r.json();
+      if (me.mustChangePassword) { location.href = '/change-password.html'; return; }
+      document.getElementById('welcome').textContent = 'Welcome, ' + (me.name || me.email);
+      document.getElementById('roleLine').textContent = LABEL[me.role] + (me.adminRole ? ' · ' + me.adminRole : '') + ' · ' + me.email;
+      document.getElementById('who').textContent = me.name || '';
+      if (me.status === 'pending') document.getElementById('pending').hidden = false;
+    })();
+    document.getElementById('logout').addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      location.href = '/';
+    });
+  </script>
+</body>
+</html>

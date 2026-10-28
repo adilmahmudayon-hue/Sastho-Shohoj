@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Serial – Log in</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🩺 Serial</h1>
+    <p>Log in to your account</p>
+  </header>
+
+  <main class="narrow">
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-role="patient">Patient</button>
+      <button class="tab" data-role="doctor">Doctor</button>
+      <button class="tab" data-role="admin">Hospital / Clinic Admin</button>
+    </div>
+
+    <div id="message" class="message" hidden></div>
+
+    <form id="loginForm" class="card" novalidate>
+      <h2 id="loginTitle">Patient login</h2>
+      <div class="grid one">
+        <label>Email<input name="email" type="email" autocomplete="username" required /></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+      </div>
+      <button type="submit" class="primary">Log in</button>
+      <p class="links"><a href="#" id="forgotLink">Forgot password?</a></p>
+    </form>
+
+    <form id="forgotForm" class="card" hidden novalidate>
+      <h2>Reset password</h2>
+      <p class="hint">Enter your registered email. We will send you a new temporary password.</p>
+      <div class="grid one">
+        <label>Email<input name="email" type="email" required /></label>
+      </div>
+      <button type="submit" class="primary">Send new password</button>
+      <p class="links"><a href="#" id="backLink">Back to log in</a></p>
+    </form>
+
+    <p class="links">New here? <a href="register.html">Create an account</a></p>
+  </main>
+
+  <script src="login.js"></script>
+</body>
+</html>

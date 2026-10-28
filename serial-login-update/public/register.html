@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Serial – Register</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🩺 Serial</h1>
+    <p>Create your account &nbsp;·&nbsp; Already registered? <a href="/">Log in</a></p>
+  </header>
+
+  <main>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-form="patient">Patient</button>
+      <button class="tab" data-form="doctor">Doctor</button>
+      <button class="tab" data-form="admin">Hospital / Clinic Admin</button>
+    </div>
+
+    <div id="message" class="message" hidden></div>
+
+    <!-- ================= PATIENT ================= -->
+    <form id="patient" class="card" novalidate>
+      <h2>Patient registration</h2>
+      <div class="grid">
+        <label>Full name<input name="name" required /></label>
+        <label>Email<input name="email" type="email" required /></label>
+        <label>Personal phone<input name="phone" type="tel" placeholder="+8801XXXXXXXXX" required /></label>
+        <label>Emergency phone<input name="emergencyPhone" type="tel" required /></label>
+        <label>Date of birth<input name="dob" type="date" required /></label>
+        <label>Age<input name="age" type="number" min="0" max="120" required /></label>
+        <label>Gender
+          <select name="gender" required>
+            <option value="">Select…</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label class="full">Address<textarea name="address" rows="2" required></textarea></label>
+      </div>
+            <p class="hint">🔑 Your password is generated automatically and sent to your email after registration.</p>
+      <button type="submit" class="primary">Register as patient</button>
+    </form>
+
+    <!-- ================= DOCTOR ================= -->
+    <form id="doctor" class="card" hidden novalidate>
+      <h2>Doctor registration</h2>
+      <div class="grid">
+        <label>Full name<input name="name" required /></label>
+        <label>Email<input name="email" type="email" required /></label>
+        <label>Personal phone<input name="phone" type="tel" required /></label>
+        <label>Clinical phone<input name="clinicalPhone" type="tel" required /></label>
+        <label>Medical license no.<input name="license" required /></label>
+        <label>Degree / qualification<input name="degree" placeholder="e.g. MBBS, FCPS" required /></label>
+        <label>Speciality<input name="speciality" placeholder="e.g. Cardiology" required /></label>
+        <label>Experience (years)<input name="experience" type="number" min="0" max="70" required /></label>
+        <label class="full">Home / personal address<textarea name="address" rows="2" required></textarea></label>
+        <label class="full">Photo (JPG/PNG/WEBP, max 2 MB)<input name="photo" type="file" accept="image/jpeg,image/png,image/webp" required /></label>
+      </div>
+
+      <h3>Workplaces</h3>
+      <p class="hint">Add every hospital or chamber where you see patients. Type the place name and press “Find address”.</p>
+      <div id="workplaces"></div>
+      <button type="button" id="addWorkplace" class="secondary">+ Add workplace</button>
+
+            <p class="hint">🔑 Your password is generated automatically and sent to your email after registration.</p>
+      <button type="submit" class="primary">Register as doctor</button>
+    </form>
+
+    <!-- ================= ADMIN ================= -->
+    <form id="admin" class="card" hidden novalidate>
+      <h2>Hospital / clinic admin registration</h2>
+      <div class="grid">
+        <label>Full name<input name="name" required /></label>
+        <label>Official email<input name="email" type="email" required /></label>
+        <label>Unique employee ID<input name="employeeId" required /></label>
+        <label>Admin role
+          <select name="adminRole" required>
+            <option value="">Select…</option>
+            <option>Super Admin</option>
+            <option>Manager</option>
+            <option>Receptionist</option>
+            <option>Staff</option>
+          </select>
+        </label>
+      </div>
+            <p class="hint">🔑 Your password is generated automatically and sent to your email after registration.</p>
+      <button type="submit" class="primary">Register as admin</button>
+    </form>
+  </main>
+
+  <!-- Template for one workplace block -->
+  <template id="workplaceTpl">
+    <fieldset class="workplace">
+      <legend>Workplace <span class="num"></span> <button type="button" class="remove">Remove</button></legend>
+      <div class="grid">
+        <label class="full">Hospital / clinic name
+          <div class="row">
+            <input class="wp-name" placeholder="e.g. Khulna Medical College Hospital" />
+            <button type="button" class="secondary find">Find address</button>
+          </div>
+        </label>
+        <label class="full">Address (auto-filled, you can edit)
+          <textarea class="wp-address" rows="2"></textarea>
+          <small class="geo-status"></small>
+        </label>
+        <label>Consultation fee<input class="wp-fee" type="number" min="0" step="1" /></label>
+        <label>Slot length
+          <select class="wp-slot">
+            <option value="10">10 min</option><option value="15">15 min</option>
+            <option value="20" selected>20 min</option><option value="30">30 min</option>
+            <option value="45">45 min</option><option value="60">60 min</option>
+          </select>
+        </label>
+        <label>Start time<input class="wp-start" type="time" value="09:00" /></label>
+        <label>End time<input class="wp-end" type="time" value="13:00" /></label>
+        <div class="full">
+          <span class="lbl">Available days</span>
+          <div class="days">
+            <label><input type="checkbox" value="Sat" />Sat</label>
+            <label><input type="checkbox" value="Sun" />Sun</label>
+            <label><input type="checkbox" value="Mon" />Mon</label>
+            <label><input type="checkbox" value="Tue" />Tue</label>
+            <label><input type="checkbox" value="Wed" />Wed</label>
+            <label><input type="checkbox" value="Thu" />Thu</label>
+            <label><input type="checkbox" value="Fri" />Fri</label>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
