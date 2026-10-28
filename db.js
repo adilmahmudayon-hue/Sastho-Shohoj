@@ -69,3 +69,45 @@ if (!userCols.includes('must_change_password')) {
 }
 
 module.exports = db;
+// ---------- Appointments, favorites, notifications ----------
+db.exec(`
+CREATE TABLE IF NOT EXISTS appointments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  patient_id INTEGER NOT NULL REFERENCES patients(user_id),
+  doctor_id INTEGER NOT NULL REFERENCES doctors(user_id),
+  workplace_id INTEGER NOT NULL REFERENCES workplaces(id),
+  consultation_type TEXT NOT NULL DEFAULT 'In-person',
+  reason TEXT,
+  preferred_date TEXT NOT NULL,
+  preferred_time TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'requested'
+    CHECK (status IN ('requested','confirmed','completed','cancelled','rejected')),
+  scheduled_date TEXT,          -- fixed by the admin
+  scheduled_time TEXT,          -- fixed by the admin
+  admin_note TEXT,
+  previous_schedule TEXT,
+  cancelled_by TEXT,
+  doctor_notes TEXT,            -- written by the doctor after the visit
+  prescription TEXT,            -- written by the doctor after the visit
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_appt_patient ON appointments(patient_id);
+CREATE INDEX IF NOT EXISTS idx_appt_doctor ON appointments(doctor_id, scheduled_date);
+
+CREATE TABLE IF NOT EXISTS favorites (
+  patient_id INTEGER NOT NULL REFERENCES patients(user_id),
+  doctor_id INTEGER NOT NULL REFERENCES doctors(user_id),
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (patient_id, doctor_id)
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  title TEXT NOT NULL,
+  message TEXT NOT NULL,
+  is_read INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_notif_user ON notifications(user_id, is_read);
+`);

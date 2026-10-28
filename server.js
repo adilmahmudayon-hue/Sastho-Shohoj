@@ -16,6 +16,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api/register', require('./routes/register'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/patient', require('./routes/patient'));
 
 // Generic error handler (e.g. multer file errors)
 app.use((err, req, res, next) => {
