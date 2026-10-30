@@ -7,35 +7,17 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="topbar">
-    <strong>🩺 Serial</strong>
-    <span><span id="who"></span> <button id="logout" class="secondary">Log out</button></span>
-  </div>
-  <main>
-    <div id="pending" class="message error" hidden>Your account is waiting for verification. Some features will be available after approval.</div>
-    <div class="card">
-      <h2 id="welcome">Loading…</h2>
-      <p class="hint" id="roleLine"></p>
-      <p>The menu for this role is coming soon.</p>
-    </div>
-  </main>
+  <main class="home"><div class="card home-card"><div class="logo">🩺</div><p class="hint">Opening your dashboard…</p></div></main>
   <script>
-    const LABEL = { patient: 'Patient', doctor: 'Doctor', admin: 'Hospital / Clinic Admin' };
+    // Sends every role to its own portal
+    const PORTALS = { patient: '/patient.html', doctor: '/doctor.html', admin: '/admin.html' };
     (async () => {
       const r = await fetch('/api/auth/me');
       if (!r.ok) { location.href = '/'; return; }
       const me = await r.json();
       if (me.mustChangePassword) { location.href = '/change-password.html'; return; }
-      if (me.role === 'patient') { location.href = '/patient.html'; return; }
-      document.getElementById('welcome').textContent = 'Welcome, ' + (me.name || me.email);
-      document.getElementById('roleLine').textContent = LABEL[me.role] + (me.adminRole ? ' · ' + me.adminRole : '') + ' · ' + me.email;
-      document.getElementById('who').textContent = me.name || '';
-      if (me.status === 'pending') document.getElementById('pending').hidden = false;
+      location.href = PORTALS[me.role] || '/';
     })();
-    document.getElementById('logout').addEventListener('click', async () => {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      location.href = '/';
-    });
   </script>
 </body>
 </html>

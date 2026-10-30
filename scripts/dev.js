@@ -32,6 +32,9 @@ if (cmd === 'list') {
 } else if (cmd === 'approve-doctors') {
   const r = db.prepare("UPDATE doctors SET status = 'approved' WHERE status != 'approved'").run();
   console.log(`Approved ${r.changes} doctor(s).`);
+} else if (cmd === 'approve-admins') {
+  const r = db.prepare("UPDATE admins SET status = 'approved' WHERE status != 'approved'").run();
+  console.log(`Approved ${r.changes} admin(s). From now on a Super Admin approves new admins inside the portal.`);
 
 } else if (cmd === 'confirm') {
   const a = getAppt();

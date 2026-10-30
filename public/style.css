@@ -128,3 +128,19 @@ a { color: var(--primary); }
 .modal-box { background: var(--card); border-radius: 14px; padding: 20px; width: 100%; max-width: 480px; max-height: 90vh; overflow: auto; }
 .modal-box h2 { margin-top: 0; }
 .modal-box form { display: grid; gap: 12px; }
+
+/* ---- admin + doctor portals ---- */
+.stat.link { cursor: pointer; }
+.stat.link:hover { border-color: var(--primary); }
+.primary-sm { padding: 10px 16px; border: 0; border-radius: 8px; background: var(--primary); color: #fff; font-weight: 600; cursor: pointer; }
+.primary-sm:hover { background: var(--primary-dark); }
+.docs ul { margin: 6px 0 0; padding-left: 20px; }
+.datebar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.datebar input { width: auto; }
+.week { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.day { display: grid; gap: 2px; justify-items: center; min-width: 64px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--text); cursor: pointer; }
+.day b { font-size: 1.2rem; }
+.day small { color: var(--muted); }
+.day.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.day.active small { color: #fff; }
+details summary { cursor: pointer; font-weight: 600; margin: 8px 0; }
